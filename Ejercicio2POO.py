@@ -1,71 +1,76 @@
-class persona:
-    def __init__(self,nombre,edad,DNI):
-        self.nombPer = nombre
-        self.edadPer = edad
-        self.dniPer = DNI
-    def checkNombre(self,nombre):
-        if nombre.isnumeric() or len(nombre)<2:
-            newName=input("Ingrese nuevamente el nombre de la persona, pero esta vez sin caracteres de tipo numerico por favor")
-            self.checkNombre(newName)
-        elif nombre == "":
-            pass
-        else:
-            self.setnombre(nombre)
-    def checkEdad(self,edad):
-        con=False
-        while con == False:
-            if edad.isnumeric():
-                if int(edad) >=1 and int(edad) <=99 or edad =="":
-                    self.setedad(int(edad))
-                    con== True
-                else:
-                    newEdad=input("El numero de edad ingresado es incorrecto por favor ingrese un valor entre 1 y 99 años")     
-                    self.checkEdad(newEdad)
+import os
+os.system("cls")
+class Cuenta: 
+
+
+    def __init__ (self, titular, cantidad):  
+        self.__titular = titular or "" 
+        self.__cantidad = cantidad or ""
+    
+    
+    @property
+    def getTitular(self):
+        return self.__titular
+    def getCantidad(self):
+        return self.__cantidad
+
+    def titular(self,titular):
+        self.__titular = titular
+    
+    def cantidad(self,cantidad):
+        self.__cantidad = cantidad
+    
+    def __str__(self): 
+        return f"Datos ingresados: \nNombre del titular: {self.__titular} \nCantidad: ${self.__cantidad} \n"
+    
+    def ingresar(self):
+        while True:
+            try:
+                depo=float(input("Indique el monto de dinero a depositar: "))     
+            except ValueError:
+                print("Dato erroneo, por favor escribe un número.")
+                continue
             else:
-                newEdad=input("El valor de edad ingresado es incorrecto, recuerde que debe ingresar el valor de la edad en numeros, no en letras, por favor ingrese un valor entre 1 y 99 años")     
-                self.checkEdad(newEdad)
-    def checkDni(self,DNI):
-        if DNI.isnumeric():
-                if len(DNI)>5 and len(DNI)<9 or DNI=="":
-                    self.setdni(int(DNI))
-                else:
-                    newDNI=input("El numero de DNI ingresado no es correcto, por favor ingreselo nuevamente")
-                    self.checkDni(newDNI)
-        else:
-            newDNI=input("El numero de DNI ingresado no es correcto, solo se deben ingresar valores numericos, por favor ingreselo nuevamente")
-            self.checkDni(newDNI)
-        
-    def getnombre(self):
-        return self.nombPer
-    def setnombre(self,nombre):
-        self.nombPer=nombre
-    def getedad(self):
-        return self.edadPer
-    def setedad(self,edad):
-        self.edadPer=edad
-    def getdni(self):
-        return self.dniPer
-    def setdni(self,dni):
-        self.dniPer=dni
-        
-    def mostrar(self):
-        print("los datos de la persona ingresada son: " + ""+ "Nombre:"+""+ self.nombPer +""+" Edad: "+str(self.edadPer)+""+ " DNI: " + "" + str(self.dniPer))
-    def mayorEdad(self):
-        if self.edadPer == "":
-            pass
-        elif self.edadPer > 17:
-            print("Es mayor de edad")
-        else:
-            print("Es menor de edad")
+                break
+        print(f"Ud va a depositar en su cuenta un monto total de $ {depo}")
+        self.__cantidad = self.__cantidad + depo
+        print (f"En su cuenta ahora tiene $ {self.__cantidad}")
+    def retirar (self):
+        while True:
+            try:
+                retiro=float(input("Ingrese la cantidad de dinero a retirar: "))     
+            except ValueError:
+                print("Dato erroneo, por favor escribe un numero.")
+                continue
+            else:
+                break
+        print(f"Ud ha retirado de su cuenta la suma de $ {retiro}")
+        self.__cantidad = self.__cantidad - retiro
+        print (f"En su cuenta ahora tiene $ {self.__cantidad}")
+finTitular = False
+while (finTitular != True):
+    titular = input("Ingrese nombre y apellido del titular de la cuenta: ")   
+    list(titular)
+    if (titular.isnumeric()):
+        print("Dato erroneo, Ud ingreso un numero")
+        finTitular = False
+    elif(len(titular)<2):
+        print("Ingrese una opcion valida")
+        finTitular = False
+    else:
+        finTitular = True
+while True:
+    try:
+        cantidad = float(input("Ingrese fondos disponibles: "))
+    except ValueError:
+        print("Debe escribir un número")
+        continue
+    if cantidad < 0:
+        pass
+    else:    
+        break
 
-
-print("Buenos dias por favor ingrese los siguientes datos:")
-nom=input("Ingrese el Nombre de la persona: ")
-edad=(input("Ingrese la edad de " + nom + ".. "))
-dni=(input("Ingrese el dni de " + nom + ".. "))
-Human=persona(nom,edad,dni)
-Human.checkEdad(edad)
-Human.checkDni(dni)
-Human.checkNombre(nom)      
-Human.mostrar()
-Human.mayorEdad()
+persona1 = Cuenta(titular, cantidad)
+print(persona1)
+persona1.ingresar()
+persona1.retirar()
